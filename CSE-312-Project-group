@@ -1,0 +1,13 @@
+<script>start("c:\\Users\\m1371\\Desktop\\DownloadRequest\\kemo\\CSE-312-Project-group\\");</script>
+<script>onHasParentDirectory();</script>
+<script>addRow(".git",".git",1,0,"0 B",1741075197,"3/4/25, 2:59:57 AM");</script>
+<script>addRow("node_modules","node_modules",1,0,"0 B",1741075197,"3/4/25, 2:59:57 AM");</script>
+<script>addRow("public","public",1,0,"0 B",1741075197,"3/4/25, 2:59:57 AM");</script>
+<script>addRow(".DS_Store",".DS_Store",0,6148,"6.0 kB",1741075197,"3/4/25, 2:59:57 AM");</script>
+<script>addRow("docker-compose.yml","docker-compose.yml",0,300,"300 B",1741075197,"3/4/25, 2:59:57 AM");</script>
+<script>addRow("Dockerfile","Dockerfile",0,315,"315 B",1741075197,"3/4/25, 2:59:57 AM");</script>
+<script>addRow("package-lock.json","package-lock.json",0,447,"447 B",1741075197,"3/4/25, 2:59:57 AM");</script>
+<script>addRow("package.json","package.json",0,56,"56 B",1741075197,"3/4/25, 2:59:57 AM");</script>
+<script>addRow("Readme.md","Readme.md",0,22,"22 B",1741075197,"3/4/25, 2:59:57 AM");</script>
+<script>addRow("requirement.txt","requirement.txt",0,38,"38 B",1741075197,"3/4/25, 2:59:57 AM");</script>
+<script>addRow("Server.py","Server.py",0,16975,"16.6 kB",1741075659,"3/4/25, 3:07:39 AM");</script>
