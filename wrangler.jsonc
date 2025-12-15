@@ -1,0 +1,6 @@
+{
+    "name": "web",
+    "assets": {
+        "directory": "./static"
+    }
+}
