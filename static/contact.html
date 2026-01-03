@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Ability Care</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <span class="logo-icon">♿</span>
+                <span class="logo-text">Ability Care</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/about-us">About Us</a></li>
+                <li><a href="/pricing">Pricing</a></li>
+                <li><a href="/contact-us" class="active">Contact</a></li>
+            </ul>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+        </nav>
+    </header>
+
+    <section class="page-hero">
+        <div class="container">
+            <h1>Get In Touch</h1>
+            <p>We're here to answer your questions and support you every step of the way</p>
+        </div>
+    </section>
+
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h2>Contact Information</h2>
+                    <p>Reach out to us through any of these channels. We're available 24/7 for emergencies and typically
+                        respond to inquiries within 24 hours.</p>
+
+                    <div class="contact-methods">
+                        <div class="contact-method">
+                            <div class="method-icon">📞</div>
+                            <div class="method-details">
+                                <h3>Phone</h3>
+                                <p>(555) 123-4567</p>
+                                <small>24/7 Emergency Line</small>
+                            </div>
+                        </div>
+
+                        <div class="contact-method">
+                            <div class="method-icon">📧</div>
+                            <div class="method-details">
+                                <h3>Email</h3>
+                                <p>info@abilitycare.com</p>
+                                <small>Response within 24 hours</small>
+                            </div>
+                        </div>
+
+                        <div class="contact-method">
+                            <div class="method-icon">📍</div>
+                            <div class="method-details">
+                                <h3>Address</h3>
+                                <p>123 Care Street, Suite 100</p>
+                                <p>Your City, ST 12345</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-method">
+                            <div class="method-icon">🕐</div>
+                            <div class="method-details">
+                                <h3>Office Hours</h3>
+                                <p>Monday - Friday: 8am - 6pm</p>
+                                <p>Weekend: 9am - 5pm</p>
+                                <small>Emergency support 24/7</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="emergency-notice">
+                        <h3>🚨 Emergency Support</h3>
+                        <p>If you or someone you're caring for needs immediate assistance, please call our 24/7
+                            emergency line: <strong>(555) 123-4567</strong></p>
+                    </div>
+                </div>
+
+                <div class="contact-form-container">
+                    <h2>Send Us a Message</h2>
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inquiry">Type of Inquiry *</label>
+                            <select id="inquiry" name="inquiry" required>
+                                <option value="">Select an option</option>
+                                <option value="new-client">New Client Inquiry</option>
+                                <option value="services">Services Information</option>
+                                <option value="pricing">Pricing & Funding</option>
+                                <option value="existing">Existing Client Support</option>
+                                <option value="employment">Employment Opportunities</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message" rows="6" required></textarea>
+                        </div>
+
+                        <div class="form-group checkbox-group">
+                            <label>
+                                <input type="checkbox" id="newsletter" name="newsletter">
+                                I'd like to receive updates and newsletters
+                            </label>
+                        </div>
+
+                        <button type="submit" class="cta-button primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="map-section">
+        <div class="container">
+            <h2>Visit Our Office</h2>
+            <div class="map-placeholder">
+                <p>📍 123 Care Street, Suite 100, Your City, ST 12345</p>
+                <p>Our office is wheelchair accessible with designated parking available.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h3>Ability Care</h3>
+                    <p>Empowering lives through compassionate, professional disability support services.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/about-us">About Us</a></li>
+                        <li><a href="/pricing">Pricing</a></li>
+                        <li><a href="/contact-us">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Info</h4>
+                    <ul>
+                        <li>📞 (555) 123-4567</li>
+                        <li>📧 info@abilitycare.com</li>
+                        <li>📍 123 Care Street, Suite 100</li>
+                        <li>🕐 24/7 Support Available</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Ability Care. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

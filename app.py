@@ -1,151 +1,135 @@
-from flask import Flask, send_from_directory, jsonify, request,make_response
+from flask import Flask, send_from_directory, jsonify, request
 from datetime import datetime
 import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 app = Flask(__name__, static_folder='static')
 
-# Sample data for projects
-PROJECTS = [
-    {
-        'id': 1,
-        'title': 'E-Commerce Platform',
-        'category': 'web',
-        'description': 'A full-stack e-commerce solution with payment integration',
-        'image': 'https://images.unsplash.com/photo-1557821552-17105176677c?w=800',
-        'tags': ['Python', 'Flask', 'PostgreSQL', 'Stripe']
-    },
-    {
-        'id': 2,
-        'title': 'AI Chat Application',
-        'category': 'ai',
-        'description': 'Real-time chat application powered by machine learning',
-        'image': 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800',
-        'tags': ['Python', 'TensorFlow', 'WebSocket', 'React']
-    },
-    {
-        'id': 3,
-        'title': 'Mobile Fitness Tracker',
-        'category': 'mobile',
-        'description': 'Cross-platform mobile app for health and fitness tracking',
-        'image': 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=800',
-        'tags': ['React Native', 'Node.js', 'MongoDB']
-    },
-    {
-        'id': 4,
-        'title': 'Data Visualization Dashboard',
-        'category': 'data',
-        'description': 'Interactive dashboard for business analytics and insights',
-        'image': 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800',
-        'tags': ['Python', 'Plotly', 'Pandas', 'FastAPI']
-    },
-    {
-        'id': 5,
-        'title': 'Cloud Infrastructure Manager',
-        'category': 'devops',
-        'description': 'Tool for managing and monitoring cloud resources',
-        'image': 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800',
-        'tags': ['Python', 'AWS', 'Docker', 'Kubernetes']
-    },
-    {
-        'id': 6,
-        'title': 'Blockchain Wallet',
-        'category': 'blockchain',
-        'description': 'Secure cryptocurrency wallet with multi-chain support',
-        'image': 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800',
-        'tags': ['Solidity', 'Web3.js', 'Ethereum']
-    }
-]
+# Configuration
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-key-please-change-in-production')
 
+# Services data
 SERVICES = [
     {
-        'icon': '💻',
-        'title': 'Web Development',
-        'description': 'Custom web applications built with modern frameworks and best practices'
+        'icon': '♿',
+        'title': 'Mobility Support',
+        'description': 'Comprehensive mobility assistance including wheelchair services, transportation, and accessibility solutions'
     },
     {
-        'icon': '📱',
-        'title': 'Mobile Development',
-        'description': 'Native and cross-platform mobile apps for iOS and Android'
+        'icon': '👁️',
+        'title': 'Visual Assistance',
+        'description': 'Support for visual impairments with screen readers, braille services, and navigation assistance'
     },
     {
-        'icon': '🤖',
-        'title': 'AI & Machine Learning',
-        'description': 'Intelligent solutions powered by cutting-edge AI technology'
+        'icon': '👂',
+        'title': 'Hearing Support',
+        'description': 'Sign language interpretation, hearing aids assistance, and communication support services'
     },
     {
-        'icon': '☁️',
-        'title': 'Cloud Solutions',
-        'description': 'Scalable cloud infrastructure and deployment strategies'
+        'icon': '🧠',
+        'title': 'Cognitive Support',
+        'description': 'Specialized care for cognitive disabilities with tailored learning and daily living support'
     },
     {
-        'icon': '🎨',
-        'title': 'UI/UX Design',
-        'description': 'Beautiful, intuitive interfaces that users love'
+        'icon': '🏥',
+        'title': 'Medical Care',
+        'description': 'Professional medical support, therapy sessions, and health monitoring services'
     },
     {
-        'icon': '🔒',
-        'title': 'Security & DevOps',
-        'description': 'Secure, automated deployment pipelines and monitoring'
+        'icon': '👥',
+        'title': 'Community Integration',
+        'description': 'Social programs, employment support, and community engagement activities'
     }
 ]
 
-@app.route("/", methods=['GET','POST'])
-def index():
+# Pricing plans
+PRICING_PLANS = [
+    {
+        'name': 'Basic Care',
+        'price': '$299',
+        'period': 'per month',
+        'features': [
+            'Weekly check-ins',
+            'Basic mobility support',
+            'Emergency response',
+            'Community access',
+            'Phone support'
+        ]
+    },
+    {
+        'name': 'Standard Care',
+        'price': '$599',
+        'period': 'per month',
+        'popular': True,
+        'features': [
+            'Daily support visits',
+            'All Basic features',
+            'Therapy sessions (2x/week)',
+            'Transportation assistance',
+            'Medical coordination',
+            '24/7 emergency support'
+        ]
+    },
+    {
+        'name': 'Premium Care',
+        'price': '$999',
+        'period': 'per month',
+        'features': [
+            '24/7 dedicated care',
+            'All Standard features',
+            'Daily therapy sessions',
+            'Personal care assistant',
+            'Specialized medical care',
+            'Family support program',
+            'Custom care plans'
+        ]
+    }
+]
 
-        with open("./static/index.html","r", encoding="utf-8") as file:
-            file = file.read()
-            
-            response = make_response(file)
-   
-            return response
+@app.route('/')
+def home():
+    return send_from_directory('static', 'index.html')
 
-@app.route("/script.js")
-def func():
-    with open("./static/script.js","r") as file:
-        file = file.read()
-        response = make_response(file)
-        response.headers['Content-Type'] = 'text/javascript; charset=utf-8'
-        response.headers['X-Content-Type-Options'] = 'nosniff'
-        return response
-@app.route("/style.css")
-def style():
-    with open("./static/style.css","r") as file:
-        file = file.read()
-        response = make_response(file)
-        response.headers['Content-Type'] = 'text/css; charset=utf-8'
-        response.headers['X-Content-Type-Options'] = 'nosniff'
-        return response
-@app.route("/favicon.ico")
-def fav():
-    with open("./static/style.css","r") as file:
-        file = file.read()
-        response = make_response(file)
-        response.headers['Content-Type'] = 'text/css; charset=utf-8'
-        response.headers['X-Content-Type-Options'] = 'nosniff'
-        return response
+@app.route('/about-us')
+def about():
+    return send_from_directory('static', 'about.html')
 
-@app.route('/api/projects')
-def get_projects():
-    category = request.args.get('category', 'all')
-    if category == 'all':
-        return jsonify(PROJECTS)
-    filtered = [p for p in PROJECTS if p['category'] == category]
-    return jsonify(filtered)
+@app.route('/pricing')
+def pricing():
+    return send_from_directory('static', 'pricing.html')
+
+@app.route('/contact-us')
+def contact():
+    return send_from_directory('static', 'contact.html')
+
+@app.route('/<path:path>')
+def serve_static(path):
+    return send_from_directory('static', path)
 
 @app.route('/api/services')
 def get_services():
     return jsonify(SERVICES)
 
+@app.route('/api/pricing')
+def get_pricing():
+    return jsonify(PRICING_PLANS)
+
 @app.route('/api/contact', methods=['POST'])
-def contact():
+def submit_contact():
     data = request.json
-    # In production, you would send email or save to database
+    # In production, send email or save to database
     print(f"Contact form submission: {data}")
-    return jsonify({'success': True, 'message': 'Thank you for your message!'})
+    return jsonify({'success': True, 'message': 'Thank you for reaching out! We will contact you within 24 hours.'})
 
 @app.route('/health')
 def health():
-    return jsonify({'status': 'healthy', 'timestamp': datetime.now().isoformat()})
+    return jsonify({
+        'status': 'healthy', 
+        'timestamp': datetime.now().isoformat()
+    })
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))

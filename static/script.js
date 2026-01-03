@@ -4,113 +4,102 @@ async function loadServices() {
         const response = await fetch('/api/services');
         const services = await response.json();
         const container = document.getElementById('servicesContainer');
-        container.innerHTML = services.map(service => `
-            <div class="service-card">
-                <div class="service-icon">${service.icon}</div>
-                <h3>${service.title}</h3>
-                <p>${service.description}</p>
-            </div>
-        `).join('');
+
+        if (container) {
+            container.innerHTML = services.map(service => `
+                <div class="service-card">
+                    <div class="service-icon">${service.icon}</div>
+                    <h3>${service.title}</h3>
+                    <p>${service.description}</p>
+                </div>
+            `).join('');
+        }
     } catch (error) {
         console.error('Error loading services:', error);
-        document.getElementById('servicesContainer').innerHTML =
-            '<div class="loading">Error loading services. Please refresh the page.</div>';
-    }
-}
-
-// Load projects
-async function loadProjects(category = 'all') {
-    try {
-        const response = await fetch(`/api/projects?category=${category}`);
-        const projects = await response.json();
-        const container = document.getElementById('projectsContainer');
-
-        if (projects.length === 0) {
-            container.innerHTML = '<div class="loading">No projects found in this category.</div>';
-            return;
+        const container = document.getElementById('servicesContainer');
+        if (container) {
+            container.innerHTML = '<div class="loading">Error loading services. Please refresh the page.</div>';
         }
-
-        container.innerHTML = projects.map(project => `
-            <div class="project-card">
-                <img src="${project.image}" alt="${project.title}" class="project-image">
-                <div class="project-content">
-                    <h3 class="project-title">${project.title}</h3>
-                    <p class="project-description">${project.description}</p>
-                    <div class="project-tags">
-                        ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-                    </div>
-                </div>
-            </div>
-        `).join('');
-    } catch (error) {
-        console.error('Error loading projects:', error);
-        document.getElementById('projectsContainer').innerHTML =
-            '<div class="loading">Error loading projects. Please refresh the page.</div>';
     }
 }
 
-// Initialize filter buttons
-function initializeFilters() {
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Remove active class from all buttons
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+// Load pricing plans
+async function loadPricing() {
+    try {
+        const response = await fetch('/api/pricing');
+        const plans = await response.json();
+        const container = document.getElementById('pricingContainer');
 
-            // Add active class to clicked button
-            btn.classList.add('active');
-
-            // Load filtered projects
-            loadProjects(btn.dataset.filter);
-        });
-    });
+        if (container) {
+            container.innerHTML = plans.map(plan => `
+                <div class="pricing-card ${plan.popular ? 'popular' : ''}">
+                    <h3>${plan.name}</h3>
+                    <div class="pricing-price">${plan.price}</div>
+                    <div class="pricing-period">${plan.period}</div>
+                    <ul class="pricing-features">
+                        ${plan.features.map(feature => `<li>${feature}</li>`).join('')}
+                    </ul>
+                    <a href="/contact-us" class="cta-button primary">Get Started</a>
+                </div>
+            `).join('');
+        }
+    } catch (error) {
+        console.error('Error loading pricing:', error);
+        const container = document.getElementById('pricingContainer');
+        if (container) {
+            container.innerHTML = '<div class="loading">Error loading pricing plans. Please refresh the page.</div>';
+        }
+    }
 }
 
 // Handle contact form submission
 function initializeContactForm() {
     const form = document.getElementById('contactForm');
 
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
+    if (form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-        // Get form data
-        const formData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            message: document.getElementById('message').value
-        };
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone')?.value || '',
+                inquiry: document.getElementById('inquiry')?.value || '',
+                message: document.getElementById('message').value,
+                newsletter: document.getElementById('newsletter')?.checked || false
+            };
 
-        // Disable submit button
-        const submitBtn = form.querySelector('.cta-button');
-        const originalText = submitBtn.textContent;
-        submitBtn.textContent = 'Sending...';
-        submitBtn.disabled = true;
+            const submitBtn = form.querySelector('.cta-button');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
 
-        try {
-            const response = await fetch('/api/contact', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
 
-            const result = await response.json();
+                const result = await response.json();
 
-            if (result.success) {
-                alert(result.message);
-                form.reset();
-            } else {
-                alert('Error sending message. Please try again.');
+                if (result.success) {
+                    alert(result.message);
+                    form.reset();
+                } else {
+                    alert('Error sending message. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                alert('Error sending message. Please try again or call us directly.');
+            } finally {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
             }
-        } catch (error) {
-            console.error('Error submitting form:', error);
-            alert('Error sending message. Please try again.');
-        } finally {
-            // Re-enable submit button
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
-        }
-    });
+        });
+    }
 }
 
 // Initialize smooth scrolling
@@ -130,15 +119,27 @@ function initializeSmoothScroll() {
     });
 }
 
+// Mobile menu toggle
+function initializeMobileMenu() {
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    const navLinks = document.querySelector('.nav-links');
+
+    if (menuBtn && navLinks) {
+        menuBtn.addEventListener('click', () => {
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+    }
+}
+
 // Header scroll effect
 function initializeHeaderScroll() {
     const header = document.querySelector('header');
 
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 100) {
-            header.style.boxShadow = '0 2px 30px rgba(0,0,0,0.15)';
+        if (window.scrollY > 50) {
+            header.style.boxShadow = '0 4px 20px rgba(0,0,0,0.15)';
         } else {
-            header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+            header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
         }
     });
 }
@@ -146,14 +147,9 @@ function initializeHeaderScroll() {
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     loadServices();
-    loadProjects();
-    initializeFilters();
+    loadPricing();
     initializeContactForm();
     initializeSmoothScroll();
+    initializeMobileMenu();
     initializeHeaderScroll();
-});
-
-// Optional: Add loading animation
-window.addEventListener('load', () => {
-    document.body.classList.add('loaded');
 });
