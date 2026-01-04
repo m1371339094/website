@@ -122,11 +122,30 @@ function initializeSmoothScroll() {
 // Mobile menu toggle
 function initializeMobileMenu() {
     const menuBtn = document.querySelector('.mobile-menu-btn');
-    const navLinks = document.querySelector('.nav-links');
+    const mobileMenu = document.querySelector('.mobile-menu');
 
-    if (menuBtn && navLinks) {
+    if (menuBtn && mobileMenu) {
         menuBtn.addEventListener('click', () => {
-            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            mobileMenu.classList.toggle('active');
+            // Change icon
+            menuBtn.textContent = mobileMenu.classList.contains('active') ? '✕' : '☰';
+        });
+
+        // Close menu when clicking a link
+        const menuLinks = mobileMenu.querySelectorAll('a');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                menuBtn.textContent = '☰';
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!menuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+                mobileMenu.classList.remove('active');
+                menuBtn.textContent = '☰';
+            }
         });
     }
 }

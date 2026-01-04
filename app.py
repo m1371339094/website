@@ -105,6 +105,10 @@ def pricing():
 def contact():
     return send_from_directory('static', 'contact.html')
 
+@app.route('/what-we-offer')
+def what_we_offer():
+    return send_from_directory('static', 'what-we-offer.html')
+
 @app.route('/<path:path>')
 def serve_static(path):
     return send_from_directory('static', path)
